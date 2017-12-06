@@ -19,6 +19,7 @@ public class _1TwoSum {
         twoSum(nums,target);
     }
 
+    //用map来存储曾经遍历过的数值
     public static int[] twoSum(int[] nums,int target){
         int[] result = new int[2];
         Map<Integer,Integer> map = new HashMap();
