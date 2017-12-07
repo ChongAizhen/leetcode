@@ -25,7 +25,7 @@ public class _1TwoSum {
         Map<Integer,Integer> map = new HashMap();
         for (int i=0;i<nums.length;i++){
             //思想为用map对遍历过的数字和下标做存储，如果map中包含了所需要的数字，则返回结果
-            //
+            //相当于利用map对遍历过的数据又进行了一次遍历
             if (map.containsKey(target-nums[i])){
                 result[1]=i;
                 result[0]=map.get(target-nums[i]);
