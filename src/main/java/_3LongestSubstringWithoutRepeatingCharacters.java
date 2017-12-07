@@ -26,16 +26,14 @@ public class _3LongestSubstringWithoutRepeatingCharacters {
         if (s.length()==0) return 0;
         HashMap<Character, Integer> map = new HashMap<Character, Integer>();
         int max=0;
-        //对字符串进行遍历
         for (int i=0, j=0; i<s.length(); ++i){
-            //如果map中包含这个字符（）
             if (map.containsKey(s.charAt(i))){
-                //j为"j"和"map中存储的此字符的下标+1"的最大值
+                //以上面的"qwewrs"为例，当i=1时，s.charAt(i)为w，则当i=3时，w出现了重复，所以说子字符串可以从e重新开始计算，于是令j=2
                 j = Math.max(j,map.get(s.charAt(i))+1);
             }
-            //map添加字符和字符的下标（只会保留最后一次字符出现的下标）
+            //map添加字符和字符的下标（相同的字符只会保留最后一次字符出现的下标）
             map.put(s.charAt(i),i);
-            //max为"max"和"i-j+1"的最大值
+            //i-j+1为新一轮的子字符串的长度
             max = Math.max(max,i-j+1);
         }
         return max;
