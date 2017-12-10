@@ -20,6 +20,7 @@ nums2 = [3, 4]
 
 The median is (2 + 3)/2 = 2.5
 */
+//应该是用了二分查找
 double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
     int N1 = nums1.size();
     int N2 = nums2.size();
