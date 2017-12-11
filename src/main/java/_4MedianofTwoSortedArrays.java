@@ -27,7 +27,7 @@ public class _4MedianofTwoSortedArrays {
         System.out.println(findMedianSortedArrays(A, B));
     }
 
-    //使用了二分查找
+    //使用了二分查找，这种时间复杂度为log(m+n)
     public static double findMedianSortedArrays(int[] A, int[] B) {
         int m = A.length, n = B.length;
         int l = (m + n + 1) / 2;
