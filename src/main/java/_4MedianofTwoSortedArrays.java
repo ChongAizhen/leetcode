@@ -1,4 +1,3 @@
-
 /*
 There are two sorted arrays（有序数组） nums1 and nums2 of size m and n respectively（分别，个别）.
 
@@ -15,30 +14,86 @@ The median is 2.0
 
 
 Example 2:
-nums1 = [1, 2]
-nums2 = [3, 4]
+nums1 = [1, 3]
+nums2 = [2, 4]
 
 The median is (2 + 3)/2 = 2.5
 */
-//应该是用了二分查找
-double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-    int N1 = nums1.size();
-    int N2 = nums2.size();
-    if (N1 < N2) return findMedianSortedArrays(nums2, nums1);	// Make sure A2 is the shorter one.
-    
-    int lo = 0, hi = N2 * 2;
-    while (lo <= hi) {
-        int mid2 = (lo + hi) / 2;   // Try Cut 2 
-        int mid1 = N1 + N2 - mid2;  // Calculate Cut 1 accordingly
-        
-        double L1 = (mid1 == 0) ? INT_MIN : nums1[(mid1-1)/2];	// Get L1, R1, L2, R2 respectively
-        double L2 = (mid2 == 0) ? INT_MIN : nums2[(mid2-1)/2];
-        double R1 = (mid1 == N1 * 2) ? INT_MAX : nums1[(mid1)/2];
-        double R2 = (mid2 == N2 * 2) ? INT_MAX : nums2[(mid2)/2];
-        
-        if (L1 > R2) lo = mid2 + 1;		// A1's lower half is too big; need to move C1 left (C2 right)
-        else if (L2 > R1) hi = mid2 - 1;	// A2's lower half too big; need to move C2 left.
-        else return (max(L1,L2) + min(R1, R2)) / 2;	// Otherwise, that's the right cut.
+public class _4MedianofTwoSortedArrays {
+
+    public static void main(String[] args){
+        int[] A = {1};
+        int[] B = {2};
+        System.out.println(findMedianSortedArrays(A, B));
     }
-    return -1;
-} 
+
+    //使用了二分查找
+    public static double findMedianSortedArrays(int[] A, int[] B) {
+        int m = A.length, n = B.length;
+        int l = (m + n + 1) / 2;
+        int r = (m + n + 2) / 2;
+        return (getkth(A, 0, B, 0, l) + getkth(A, 0, B, 0, r)) / 2.0;
+    }
+
+    public static double getkth(int[] A, int aStart, int[] B, int bStart, int k) {
+
+        if (aStart > A.length - 1)
+            return B[bStart + k - 1];
+        if (bStart > B.length - 1)
+            return A[aStart + k - 1];
+
+        //A和B各有一个元素 (1+1+1)/2=1
+        if (k == 1)
+            return Math.min(A[aStart], B[bStart]);
+
+        int aMid = Integer.MAX_VALUE, bMid = Integer.MAX_VALUE;
+
+        if (aStart + k/2 - 1 < A.length)
+            aMid = A[aStart + k/2 - 1];
+        if (bStart + k/2 - 1 < B.length)
+            bMid = B[bStart + k/2 - 1];
+
+        if (aMid < bMid)
+            return getkth(A, aStart + k/2, B, bStart, k - k/2);// Check: aRight + bLeft
+        else
+            return getkth(A, aStart, B, bStart + k/2, k - k/2);// Check: bRight + aLeft
+    }
+
+    public double findMedianSortedArrays1(int A[], int B[]) {
+        int n = A.length;
+        int m = B.length;
+        // the following call is to make sure len(A) <= len(B).
+        // yes, it calls itself, but at most once, shouldn't be
+        // consider a recursive solution
+        if (n > m)
+            return findMedianSortedArrays(B, A);
+
+        // now, do binary search
+        int k = (n + m - 1) / 2;
+        int l = 0, r = Math.min(k, n); // r is n, NOT n-1, this is important!!
+        while (l < r) {
+            int midA = (l + r) / 2;
+            int midB = k - midA;
+            if (A[midA] < B[midB])
+                l = midA + 1;
+            else
+                r = midA;
+        }
+
+        // after binary search, we almost get the median because it must be between
+        // these 4 numbers: A[l-1], A[l], B[k-l], and B[k-l+1]
+
+        // if (n+m) is odd, the median is the larger one between A[l-1] and B[k-l].
+        // and there are some corner cases we need to take care of.
+        int a = Math.max(l > 0 ? A[l - 1] : Integer.MIN_VALUE, k - l >= 0 ? B[k - l] : Integer.MIN_VALUE);
+        if (((n + m) & 1) == 1)
+            return (double) a;
+
+        // if (n+m) is even, the median can be calculated by
+        //      median = (max(A[l-1], B[k-l]) + min(A[l], B[k-l+1]) / 2.0
+        // also, there are some corner cases to take care of.
+        int b = Math.min(l < n ? A[l] : Integer.MAX_VALUE, k - l + 1 < m ? B[k - l + 1] : Integer.MAX_VALUE);
+        return (a + b) / 2.0;
+    }
+
+}
