@@ -22,12 +22,12 @@ The median is (2 + 3)/2 = 2.5
 public class _4MedianofTwoSortedArrays {
 
     public static void main(String[] args){
-        int[] A = {1};
-        int[] B = {2};
+        int[] A = {1, 3};
+        int[] B = {2, 4};
         System.out.println(findMedianSortedArrays(A, B));
     }
 
-    //使用了二分查找
+    //使用了二分查找，这种时间复杂度为log(m+n)
     public static double findMedianSortedArrays(int[] A, int[] B) {
         int m = A.length, n = B.length;
         int l = (m + n + 1) / 2;
@@ -59,6 +59,7 @@ public class _4MedianofTwoSortedArrays {
             return getkth(A, aStart, B, bStart + k/2, k - k/2);// Check: bRight + aLeft
     }
 
+    //时间复杂度为log(min(m,n))
     public double findMedianSortedArrays1(int A[], int B[]) {
         int n = A.length;
         int m = B.length;
@@ -81,7 +82,7 @@ public class _4MedianofTwoSortedArrays {
         }
 
         // after binary search, we almost get the median because it must be between
-        // these 4 numbers: A[l-1], A[l], B[k-l], and B[k-l+1]
+        // these 4 numbers: A[l-1], A[l], B[k-l], and B[k-l+1] 
 
         // if (n+m) is odd, the median is the larger one between A[l-1] and B[k-l].
         // and there are some corner cases we need to take care of.
@@ -89,11 +90,10 @@ public class _4MedianofTwoSortedArrays {
         if (((n + m) & 1) == 1)
             return (double) a;
 
-        // if (n+m) is even, the median can be calculated by
+        // if (n+m) is even, the median can be calculated by 
         //      median = (max(A[l-1], B[k-l]) + min(A[l], B[k-l+1]) / 2.0
         // also, there are some corner cases to take care of.
         int b = Math.min(l < n ? A[l] : Integer.MAX_VALUE, k - l + 1 < m ? B[k - l + 1] : Integer.MAX_VALUE);
         return (a + b) / 2.0;
     }
-
 }
