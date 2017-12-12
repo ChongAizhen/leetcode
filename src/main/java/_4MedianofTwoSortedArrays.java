@@ -35,6 +35,8 @@ public class _4MedianofTwoSortedArrays {
         return (getkth(A, 0, B, 0, l) + getkth(A, 0, B, 0, r)) / 2.0;
     }
 
+    //if (aMid < bMid) Keep [aRight + b]
+    //else Keep [bRight + a]
     public static double getkth(int[] A, int aStart, int[] B, int bStart, int k) {
 
         if (aStart > A.length - 1)
