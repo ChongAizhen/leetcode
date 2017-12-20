@@ -22,7 +22,7 @@ The median is (2 + 3)/2 = 2.5
 public class _4MedianofTwoSortedArrays {
 
     public static void main(String[] args){
-        int[] A = {1, 2, 3};
+        int[] A = {1, 2};
         int[] B = {4, 5, 6, 7, 8, 9};
         System.out.println(findMedianSortedArrays(A, B));
     }
@@ -30,9 +30,17 @@ public class _4MedianofTwoSortedArrays {
     //使用了二分查找，这种时间复杂度为log(m+n)
     public static double findMedianSortedArrays(int[] A, int[] B) {
         int m = A.length, n = B.length;
+        //取的是两个数组元素个数和的中间的位置
+        //例如有9个元素，则m和n都为5
+        //如果有8个元素，则m和n分别为4，5
         int l = (m + n + 1) / 2;
         int r = (m + n + 2) / 2;
-        return (getkth(A, 0, B, 0, l) + getkth(A, 0, B, 0, r)) / 2.0;
+        //一开始都从头开始找
+        //目前认为思想是类似于将A,B从小到大排序，然后取中间的数字
+        double v1=getkth(A, 0, B, 0, l);
+        double v2=getkth(A, 0, B, 0, r);
+        return (v1+v2)/2.0;
+//        return (getkth(A, 0, B, 0, l) + getkth(A, 0, B, 0, r)) / 2.0;
     }
 
     //if (aMid < bMid) Keep [aRight + b]
