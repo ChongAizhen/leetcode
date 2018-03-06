@@ -1,3 +1,5 @@
+import java.util.Map;
+
 /**
  * Created by Chong AiZhen on 17-12-26,下午7:29.
  */
@@ -23,7 +25,34 @@ Output: "bb"
  */
 public class _5LongestPalindromicSubstring {
 
+    private static int lo, maxLen;
+
     public static void main(String[] args){
+        System.out.println(longestPalindromicSubstring("abdbc"));
+    }
+
+    public static String longestPalindromicSubstring(String word) {
+        int len = word.length();
+        if (len<2)
+            return word;
+        for (int i=0;i<word.length()-1;i++){
+            extendPalindrome(word,i,i);//aba这种情况，一个字母作为对称轴
+            extendPalindrome(word,i,i+1);//abba这种情况
+        }
+        return word.substring(lo, maxLen);
+    }
+
+    //该方法就是找一个中心，然后不断向两边扩散并判断字符是否相等
+    public static void extendPalindrome(String word,int j,int k) {
+        while (j>=0 && k<word.length()-1 && word.charAt(j)==word.charAt(k)) {
+            j--;
+            k++;
+        }
+
+        if (maxLen<k-j+1) {
+            maxLen = k-j-1;//因为j--而k++
+            lo=j+1;
+        }
 
     }
 }
