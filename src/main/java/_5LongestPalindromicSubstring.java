@@ -39,7 +39,7 @@ public class _5LongestPalindromicSubstring {
             extendPalindrome(word,i,i);//aba这种情况，一个字母作为对称轴
             extendPalindrome(word,i,i+1);//abba这种情况
         }
-        return word.substring(lo, maxLen);
+        return word.substring(lo, lo+maxLen);
     }
 
     //该方法就是找一个中心，然后不断向两边扩散并判断字符是否相等
